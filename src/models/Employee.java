@@ -27,6 +27,7 @@ import javax.persistence.Table;
             ),
     @NamedQuery(
             name = "checkLoginCodeAndPassword",
+//            delete_flag = 0なら存在、1なら削除済み
             query = "SELECT e FROM Employee AS e WHERE e.delete_flag = 0 AND e.code = :code AND e.password = :pass"
             )
 })
