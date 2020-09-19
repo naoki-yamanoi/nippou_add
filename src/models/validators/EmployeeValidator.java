@@ -64,6 +64,7 @@ public class EmployeeValidator {
     // パスワードの必須入力チェック
     private static String _validatePassword(String password, Boolean password_check_flag) {
         // パスワードを変更する場合のみ実行
+//        Createの方で、パスワードを空欄にするとエラーが表示される
         if(password_check_flag && (password == null || password.equals(""))) {
             return "パスワードを入力してください。";
         }

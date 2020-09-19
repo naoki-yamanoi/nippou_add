@@ -39,7 +39,9 @@ public class LoginFilter implements Filter {
      * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
      */
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+//        プロジェクトの階層が一番上のパス(URL)、/daily_report_system ← これのこと
         String context_path = ((HttpServletRequest)request).getContextPath();
+//        プロジェクトのそれぞれのパス(URL)、@WebServlet("/employees/create") ← これのこと
         String servlet_path = ((HttpServletRequest)request).getServletPath();
 
         if(!servlet_path.matches("/css.*")) {       // CSSフォルダ内は認証処理から除外する

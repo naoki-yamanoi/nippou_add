@@ -37,7 +37,7 @@ public class Employee {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
+//    nullabe = false は、nullを許容しない
     @Column(name = "code", nullable = false, unique = true)
     private String code;
 
@@ -46,7 +46,7 @@ public class Employee {
 
     @Column(name = "password", length = 64, nullable = false)
     private String password;
-
+//    一般が0、管理者が1
     @Column(name = "admin_flag", nullable = false)
     private Integer admin_flag;
 
