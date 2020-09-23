@@ -7,6 +7,11 @@
                 <c:out value="${flush}"></c:out>
             </div>
         </c:if>
+        <c:if test="${follow_message != null}">
+            <div id="flush_success">
+                <c:out value="${follow_message}"></c:out>
+            </div>
+        </c:if>
         <h2>従業員　一覧</h2>
         <table id="employee_list">
             <tbody>

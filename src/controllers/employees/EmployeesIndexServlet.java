@@ -52,9 +52,15 @@ public class EmployeesIndexServlet extends HttpServlet {
         request.setAttribute("employees", employees);
         request.setAttribute("employees_count", employees_count);
         request.setAttribute("page", page);
+
         if(request.getSession().getAttribute("flush") != null) {
             request.setAttribute("flush", request.getSession().getAttribute("flush"));
             request.getSession().removeAttribute("flush");
+        }
+
+        if(request.getSession().getAttribute("follow_message") != null) {
+            request.setAttribute("follow_message", request.getSession().getAttribute("follow_message"));
+            request.getSession().removeAttribute("follow_message");
         }
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/employees/index.jsp");

@@ -59,6 +59,10 @@ public class Employee {
     @Column(name = "delete_flag", nullable = false)
     private Integer delete_flag;
 
+//    @ManyToOne
+//    @JoinColumn(name = "follow_employee_id", nullable = false)
+//    private Employee follow_employee;
+
     public Integer getId() {
         return id;
     }
@@ -122,4 +126,12 @@ public class Employee {
     public void setDelete_flag(Integer delete_flag) {
         this.delete_flag = delete_flag;
     }
+
+//    public Employee getFollow_employee() {
+//        return follow_employee;
+//    }
+//
+//    public void setFollow_employee(Employee follow_employee) {
+//        this.follow_employee = follow_employee;
+//    }
 }
