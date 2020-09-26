@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.Employee;
+import models.Follow;
 import models.Report;
 import utils.DBUtil;
 
@@ -36,7 +38,24 @@ public class ReportsShowServlet extends HttpServlet {
 
         Report r = em.find(Report.class, Integer.parseInt(request.getParameter("id")));
 
+        Employee e = r.getEmployee();
+
+        Employee login_employee = (Employee)request.getSession().getAttribute("login_employee");
+
+//        ログイン者とレポートを作成した者が同じでなければ既にフォローしているかの確認を行う
+        Follow reseach_follow = null;
+//        ==はプリミティブ型、equalsは参照型の比較
+        if(e.getId() != login_employee.getId()) {
+            reseach_follow = em.createNamedQuery("reseachFollowEmployee", Follow.class)
+                                .setParameter("employee", e)
+                                .setParameter("login_employee", login_employee)
+//                                インスタンスも生成
+                                .getSingleResult();
+        }
+
         em.close();
+
+        request.setAttribute("follow", reseach_follow);
 
         request.setAttribute("report", r);
         request.setAttribute("_token", request.getSession().getId());

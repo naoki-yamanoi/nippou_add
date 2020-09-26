@@ -42,6 +42,17 @@
                 <c:if test="${sessionScope.login_employee.id == report.employee.id}">
                     <p><a href="<c:url value="/reports/edit?id=${report.id}" />">この日報を編集する</a></p>
                 </c:if>
+                <!-- 日報の作成者ではない ＋ 既にフォローしていない 場合に表示 -->
+                <c:choose>
+                    <c:when test="${sessionScope.login_employee.id != report.employee.id && follow == null}">
+                        <p><a href="<c:url value='/follow/to?id=${report.id}' />">フォローする</a></p>
+                    </c:when>
+                    <c:otherwise>
+                        <c:if test="${sessionScope.login_employee.id != report.employee.id}">
+                            <p><a href="<c:url value='/follow/un?id=${report.id}' />">フォローを解除する</a></p>
+                        </c:if>
+                    </c:otherwise>
+                </c:choose>
             </c:when>
             <c:otherwise>
                 <h2>お探しのデータは見つかりませんでした。</h2>

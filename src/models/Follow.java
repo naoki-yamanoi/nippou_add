@@ -14,13 +14,13 @@ import javax.persistence.Table;
 @Table(name = "follow_employees")
 @NamedQueries({
     @NamedQuery(
-            name = "getMyFollowEmployees",
-            query = "SELECT f FROM Follow AS f WHERE f.my_employee = :employee ORDER BY f.id DESC"
+            name = "getMyFollowEmployee",
+            query = "SELECT f FROM Follow As f WHERE f.my_employee = :employee"
             ),
     @NamedQuery(
-            name = "getFollowEmployeesCount",
-            query = "SELECT COUNT(f) FROM Follow AS f"
-            ),
+            name = "reseachFollowEmployee",
+            query = "SELECT f FROM Follow As f WHERE f.follow_employee = :employee AND f.my_employee = :login_employee"
+            )
 })
 @Entity
 public class Follow {
@@ -29,10 +29,12 @@ public class Follow {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+//    ログインしている従業員
     @ManyToOne
     @JoinColumn(name = "my_employee", nullable = false)
     private Employee my_employee;
 
+//    フォロー対象の従業員
     @ManyToOne
     @JoinColumn(name = "follow_employee", nullable = false)
     private Employee follow_employee;

@@ -1,6 +1,7 @@
 package controllers.follow;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -38,9 +39,6 @@ public class FollowIndex extends HttpServlet {
         EntityManager em = DBUtil.createEntityManager();
 
         Employee login_employee = (Employee)request.getSession().getAttribute("login_employee");
-        List<Follow> follow_employees = em.createNamedQuery("getMyFollowEmployees", Follow.class)
-                                           .setParameter("employee", login_employee)
-                                           .getResultList();
 
         int page;
         try{
@@ -49,23 +47,45 @@ public class FollowIndex extends HttpServlet {
             page = 1;
         }
 
+//        ログインしている従業員情報を元にフォローしている従業員を取得
+        List<Follow> myFollows = em.createNamedQuery("getMyFollowEmployee", Follow.class)
+                                          .setParameter("employee", login_employee)
+                                          .getResultList();
 
-        List<Report> follow_reports = em.createNamedQuery("getMyAllReports", Report.class)
-                                         .setParameter("employee", follow_employees)
-                                         .setFirstResult(15 * (page - 1))
-                                         .setMaxResults(15)
-                                         .getResultList();
+//        フォローしている従業員が入れば処理を続行、いなければエラーメッセージを表示
+        if(myFollows != null && myFollows.size() > 0) {
+//            Follow型からEmployee型に入れ替える
+            List<Employee> myFollowEmployees = new ArrayList<>();
+            for(Follow f : myFollows) {
+              myFollowEmployees.add(f.getFollow_employee());
+            }
+
+//            フォローしている従業員のレポート一覧を取得
+            List<Report> follow_reports = em.createNamedQuery("getAllFollowReports", Report.class)
+                                             .setParameter("emp_list", myFollowEmployees)
+                                             .setFirstResult(15 * (page - 1))
+                                             .setMaxResults(15)
+                                             .getResultList();
+
+//            レポートの数を取得
+            long follow_reports_count = (long)em.createNamedQuery("getFollowReportsCount", Long.class)
+                                                 .setParameter("emp_list", myFollowEmployees)
+                                                 .getSingleResult();
+
+            em.close();
+
+            request.setAttribute("follow_reports", follow_reports);
+            request.setAttribute("follow_reports_count", follow_reports_count);
+            request.setAttribute("page", page);
+
+        } else {
+
+            em.close();
+
+            request.setAttribute("follow_null", "フォローしている従業員はいません");
+        }
 
 
-        long follow_reports_count = (long)em.createNamedQuery("getMyReportsCount", Long.class)
-                                     .setParameter("employee", follow_employees)
-                                     .getSingleResult();
-
-        em.close();
-
-        request.setAttribute("follow_reports", follow_reports);
-        request.setAttribute("follow_reports_count", follow_reports_count);
-        request.setAttribute("page", page);
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/follow/index.jsp");
         rd.forward(request, response);

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import models.Employee;
 import models.Follow;
+import models.Report;
 import utils.DBUtil;
 
 /**
@@ -37,8 +38,8 @@ public class FollowToServlet extends HttpServlet {
 
 //        フォローする従業員、フォローされる従業員を取得
         Employee login_employee = (Employee)request.getSession().getAttribute("login_employee");
-        Employee e = em.find(Employee.class, Integer.parseInt(request.getParameter("id")));
-
+        Report r = em.find(Report.class, Integer.parseInt(request.getParameter("id")));
+        Employee e = r.getEmployee();
 
 //        フォローする従業員、フォローされる従業員をセット
         Follow f = new Follow();
@@ -51,9 +52,9 @@ public class FollowToServlet extends HttpServlet {
 
         em.close();
 
-        request.getSession().setAttribute("follow_message", "フォローしました。");
+        request.getSession().setAttribute("flush", "フォローしました。");
 
-        response.sendRedirect(request.getContextPath() + "/employees/index");
+        response.sendRedirect(request.getContextPath() + "/reports/index");
     }
 
 }

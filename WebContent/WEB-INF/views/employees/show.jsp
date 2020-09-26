@@ -42,7 +42,6 @@
                 </table>
 
                 <p><a href="<c:url value='/employees/edit?id=${employee.id}' />">この従業員情報を編集する</a></p>
-                <p><a href="<c:url value='/follow/to?id=${employee.id}' />">この従業員情報をフォローする</a></p>
             </c:when>
             <c:otherwise>
                 <h2>お探しのデータは見つかりませんでした。</h2>
