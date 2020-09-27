@@ -19,7 +19,11 @@ import javax.persistence.Table;
             ),
     @NamedQuery(
             name = "reseachFollowEmployee",
-            query = "SELECT f FROM Follow As f WHERE f.follow_employee = :employee AND f.my_employee = :login_employee"
+            query = "SELECT f FROM Follow As f WHERE f.my_employee = :login_employee AND f.follow_employee = :employee"
+            ),
+    @NamedQuery(
+            name = "removeFollowEmployee",
+            query = "SELECT f FROM Follow As f WHERE f.my_employee = :login_employee AND f.follow_employee = :remove_employee"
             )
 })
 @Entity

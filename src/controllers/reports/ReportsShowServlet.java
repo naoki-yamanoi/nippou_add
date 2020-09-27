@@ -3,6 +3,7 @@ package controllers.reports;
 import java.io.IOException;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,21 +37,28 @@ public class ReportsShowServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         EntityManager em = DBUtil.createEntityManager();
 
+//        レポートIDからレポートインスタンスを取得
         Report r = em.find(Report.class, Integer.parseInt(request.getParameter("id")));
 
+//        レポートインスタンスからこのレポートの作成者を取得
         Employee e = r.getEmployee();
 
+//        ログイン者を取得
         Employee login_employee = (Employee)request.getSession().getAttribute("login_employee");
 
-//        ログイン者とレポートを作成した者が同じでなければ既にフォローしているかの確認を行う
+//        ログイン者とレポートの作成者が同じでなければ、既にフォローしているかの確認を行う
         Follow reseach_follow = null;
-//        ==はプリミティブ型、equalsは参照型の比較
-        if(e.getId() != login_employee.getId()) {
-            reseach_follow = em.createNamedQuery("reseachFollowEmployee", Follow.class)
-                                .setParameter("employee", e)
-                                .setParameter("login_employee", login_employee)
-//                                インスタンスも生成
-                                .getSingleResult();
+        try {
+//            ==はプリミティブ型、equalsは参照型の比較
+            if(e.getId() != login_employee.getId()) {
+                reseach_follow = em.createNamedQuery("reseachFollowEmployee", Follow.class)
+                                    .setParameter("employee", e)
+                                    .setParameter("login_employee", login_employee)
+//                                    インスタンスも生成
+                                    .getSingleResult();
+            }
+        } catch(NoResultException no_e) {
+            reseach_follow = null;
         }
 
         em.close();
