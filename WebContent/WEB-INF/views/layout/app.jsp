@@ -15,11 +15,14 @@
                     <h1><a href="<c:url value='/' />">日報管理システム</a></h1>&nbsp;&nbsp;&nbsp;
                     <c:if test="${sessionScope.login_employee != null}">
                         <!-- admin_flag 一般が0、管理者が1 管理者なら従業員管理へのリンクを表示 -->
-                        <c:if test="${sessionScope.login_employee.admin_flag == 1}">
+                        <c:if test="${sessionScope.login_employee.admin_flag != 0}">
                             <a href="<c:url value='/employees/index' />">従業員管理</a>&nbsp;
                         </c:if>
                         <a href="<c:url value='/reports/index' />">日報管理</a>&nbsp;
                         <a href="<c:url value='/follow/index' />">フォロー一覧</a>&nbsp;
+                        <c:if test="${sessionScope.login_employee.admin_flag != 0}">
+                            <a href="<c:url value='/verify/index' />">日報の認証</a>&nbsp;
+                        </c:if>
                     </c:if>
                 </div>
                 <c:if test="${sessionScope.login_employee != null}">

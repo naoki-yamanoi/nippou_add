@@ -48,6 +48,7 @@ public class ReportsShowServlet extends HttpServlet {
 
 //        ログイン者とレポートの作成者が同じでなければ、既にフォローしているかの確認を行う
         Follow reseach_follow = null;
+//        getSingleResult()はnullだと例外を出すのでtry-catchで囲む
         try {
 //            ==はプリミティブ型、equalsは参照型の比較
             if(e.getId() != login_employee.getId()) {
