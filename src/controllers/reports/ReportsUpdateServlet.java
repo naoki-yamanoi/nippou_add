@@ -6,7 +6,6 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import models.Report;
-import models.Verify;
 import models.validators.ReportValidator;
 import utils.DBUtil;
 
@@ -62,19 +60,6 @@ public class ReportsUpdateServlet extends HttpServlet {
             } else {
                 em.getTransaction().begin();
                 em.getTransaction().commit();
-
-                Verify same_report = null;
-                try {
-                    same_report = em.createNamedQuery("checkSameReport", Verify.class)
-                                                  .setParameter("report", r)
-                                                  .getSingleResult();
-                } catch(NoResultException no_e) {
-                    same_report = null;
-                }
-                if(same_report == null) {
-                    Verify v = new Verify();
-                }
-
                 em.close();
                 request.getSession().setAttribute("flush", "更新が完了しました。");
 

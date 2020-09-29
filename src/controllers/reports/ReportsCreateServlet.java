@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import models.Employee;
 import models.Report;
-import models.Verify;
 import models.validators.ReportValidator;
 import utils.DBUtil;
 
@@ -76,12 +75,6 @@ public class ReportsCreateServlet extends HttpServlet {
                 em.getTransaction().begin();
                 em.persist(r);
                 em.getTransaction().commit();
-
-//                認証クラスにセット
-                Verify v = new Verify();
-                v.setReport(r);
-                v.setVerify_flag(0);
-
                 em.close();
                 request.getSession().setAttribute("flush", "登録が完了しました。");
 

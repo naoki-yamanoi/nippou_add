@@ -40,6 +40,14 @@ import javax.persistence.Table;
     @NamedQuery(
             name = "getFollowReportsCount",
             query = "SELECT COUNT(r) FROM Report AS r WHERE r.employee IN :emp_list"
+            ),
+    @NamedQuery(
+            name = "getApprovalReports",
+            query = "SELECT r FROM Report AS r WHERE r.approval_employee IS NOT NULL ORDER BY r.id DESC"
+            ),
+    @NamedQuery(
+            name = "getApprovalReportsCount",
+            query = "SELECT COUNT(r) FROM Report AS r WHERE r.approval_employee IS NOT NULL"
             )
 })
 @Entity
@@ -72,6 +80,11 @@ public class Report {
 
     @Column(name = "updated_at", nullable = false)
     private Timestamp updated_at;
+
+//    承認した従業員
+    @ManyToOne
+    @JoinColumn(name = "approval_employee_id", nullable = false)
+    private Employee approval_employee;
 
     public Integer getId() {
         return id;
@@ -127,5 +140,13 @@ public class Report {
 
     public void setUpdated_at(Timestamp updated_at) {
         this.updated_at = updated_at;
+    }
+
+    public Employee getApproval_employee() {
+        return approval_employee;
+    }
+
+    public void setApproval_employee(Employee approval_employee) {
+        this.approval_employee = approval_employee;
     }
 }
