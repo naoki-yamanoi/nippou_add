@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.Employee;
 import models.Report;
 import utils.DBUtil;
 
@@ -31,9 +32,9 @@ public class ApprovalIndex extends HttpServlet {
     }
 
     /**
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         EntityManager em = DBUtil.createEntityManager();
 
         int page;
@@ -43,26 +44,34 @@ public class ApprovalIndex extends HttpServlet {
             page = 1;
         }
 
-        List<Report> approval_reports = null;
-        long approval_reports_count = 0;
+        List<Report> not_approval_reports = null;
+        long not_approval_reports_count = 0;
         try {
-            approval_reports = em.createNamedQuery("getApprovalReports", Report.class)
+            not_approval_reports = em.createNamedQuery("getNotApprovalReports", Report.class)
                                                .setFirstResult(10 * (page - 1))
                                                .setMaxResults(10)
                                                .getResultList();
 
-            approval_reports_count = (long)em.createNamedQuery("getApprovalReportsCount", Long.class)
+            not_approval_reports_count = (long)em.createNamedQuery("getNotApprovalReportsCount", Long.class)
                                                    .getSingleResult();
 
         } catch(NoResultException no_e) {
-            request.setAttribute("null_error", "承認されたレポートはありません");
+            request.setAttribute("not_approval", "未承認のレポートはありません");
         }
+
+        Employee login_employee = (Employee) request.getSession().getAttribute("login_employee");
 
         em.close();
 
-        request.setAttribute("approval_reports", approval_reports);
-        request.setAttribute("approval_reports_count", approval_reports_count);
+        request.setAttribute("not_approval_reports", not_approval_reports);
+        request.setAttribute("not_approval_reports_count", not_approval_reports_count);
         request.setAttribute("page", page);
+        request.setAttribute("login_employee", login_employee);
+
+        if(request.getSession().getAttribute("flush") != null) {
+            request.setAttribute("flush", request.getSession().getAttribute("flush"));
+            request.getSession().removeAttribute("flush");
+        }
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/approval/index.jsp");
         rd.forward(request, response);

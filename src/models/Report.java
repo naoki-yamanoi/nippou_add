@@ -42,12 +42,24 @@ import javax.persistence.Table;
             query = "SELECT COUNT(r) FROM Report AS r WHERE r.employee IN :emp_list"
             ),
     @NamedQuery(
+            name = "getNotApprovalReports",
+            query = "SELECT r FROM Report AS r WHERE r.approval_employee IS NULL ORDER BY r.id DESC"
+            ),
+    @NamedQuery(
+            name = "getNotApprovalReportsCount",
+            query = "SELECT COUNT(r) FROM Report AS r WHERE r.approval_employee IS NULL"
+            ),
+    @NamedQuery(
             name = "getApprovalReports",
             query = "SELECT r FROM Report AS r WHERE r.approval_employee IS NOT NULL ORDER BY r.id DESC"
             ),
     @NamedQuery(
             name = "getApprovalReportsCount",
             query = "SELECT COUNT(r) FROM Report AS r WHERE r.approval_employee IS NOT NULL"
+            ),
+    @NamedQuery(
+            name = "checkNotApprovalReports",
+            query = "SELECT r FROM Report AS r WHERE r.approval_employee IS NULL AND r.employee = :login_employee"
             )
 })
 @Entity
@@ -83,7 +95,7 @@ public class Report {
 
 //    承認した従業員
     @ManyToOne
-    @JoinColumn(name = "approval_employee_id", nullable = false)
+    @JoinColumn(name = "approval_employee_id", nullable = true)
     private Employee approval_employee;
 
     public Integer getId() {

@@ -41,18 +41,18 @@ public class ReportsIndexServlet extends HttpServlet {
         } catch(Exception e) {
             page = 1;
         }
-        List<Report> reports = em.createNamedQuery("getAllReports", Report.class)
-                                  .setFirstResult(15 * (page - 1))
-                                  .setMaxResults(15)
+        List<Report> approval_reports = em.createNamedQuery("getApprovalReports", Report.class)
+                                  .setFirstResult(10 * (page - 1))
+                                  .setMaxResults(10)
                                   .getResultList();
 
-        long reports_count = (long)em.createNamedQuery("getReportsCount", Long.class)
+        long approval_reports_count = (long)em.createNamedQuery("getApprovalReportsCount", Long.class)
                                      .getSingleResult();
 
         em.close();
 
-        request.setAttribute("reports", reports);
-        request.setAttribute("reports_count", reports_count);
+        request.setAttribute("approval_reports", approval_reports);
+        request.setAttribute("approval_reports_count", approval_reports_count);
         request.setAttribute("page", page);
 
         if(request.getSession().getAttribute("flush") != null) {
