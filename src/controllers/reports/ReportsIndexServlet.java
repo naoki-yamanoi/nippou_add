@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.Employee;
+import models.Reaction;
 import models.Report;
 import utils.DBUtil;
 
@@ -49,11 +51,18 @@ public class ReportsIndexServlet extends HttpServlet {
         long approval_reports_count = (long)em.createNamedQuery("getApprovalReportsCount", Long.class)
                                      .getSingleResult();
 
+        Employee login_employee = (Employee)request.getSession().getAttribute("login_employee");
+
+        List<Reaction> reactions = em.createNamedQuery("getReactions", Reaction.class)
+                                      .setParameter("login_employee", login_employee)
+                                      .getResultList();
+
         em.close();
 
         request.setAttribute("approval_reports", approval_reports);
         request.setAttribute("approval_reports_count", approval_reports_count);
         request.setAttribute("page", page);
+        request.setAttribute("reactions", reactions);
 
         if(request.getSession().getAttribute("flush") != null) {
             request.setAttribute("flush", request.getSession().getAttribute("flush"));

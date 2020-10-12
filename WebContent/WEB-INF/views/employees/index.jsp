@@ -18,7 +18,7 @@
                 <c:forEach var="employee" items="${employees}" varStatus="status">
                     <tr class="row${status.count % 2}">
                         <td><c:out value="${employee.code}" /></td>
-                        <td><c:out value="${employee.name}" /></td>
+                        <td><a href="<c:url value='/employees/show?id=${employee.id}' />"><c:out value="${employee.name}" /></a></td>
                         <td>
                             <c:choose>
                                 <c:when test="${employee.delete_flag == 1}">
@@ -46,6 +46,6 @@
                 </c:choose>
             </c:forEach>
         </div>
-        <p><a href="<c:url value='/employees/new' />">新規従業員の登録</a></p>
+        <p class="click_btn"><a href="<c:url value='/employees/new' />">新規従業員の登録</a></p>
     </c:param>
 </c:import>

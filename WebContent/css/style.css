@@ -162,3 +162,16 @@ pre {
 h3 {
     font-size: larger;
 }
+
+a.disabled{
+    pointer-events: none;
+    color: #333333;
+}
+
+.click_btn a {
+    background-color: gray;
+    display: inline-block;
+    padding: 10px;
+    color: white;
+    border-radius: 4px;
+}

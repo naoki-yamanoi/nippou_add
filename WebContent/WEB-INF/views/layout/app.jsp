@@ -19,7 +19,7 @@
                             <a href="<c:url value='/employees/index' />">従業員管理</a>&nbsp;
                         </c:if>
                         <a href="<c:url value='/reports/index' />">日報管理</a>&nbsp;
-                        <a href="<c:url value='/follow/index' />">フォロー一覧</a>&nbsp;
+                        <a href="<c:url value='/follow/index' />">フォロー</a>&nbsp;
                         <c:if test="${sessionScope.login_employee.admin_flag != 0}">
                             <a href="<c:url value='/approval/index' />">日報の承認</a>&nbsp;
                         </c:if>

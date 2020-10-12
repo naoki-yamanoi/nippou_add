@@ -10,7 +10,7 @@
                     <c:import url="_form.jsp" />
                 </form>
 
-                <p><a href="#" onclick="confirmDestroy();">この従業員情報を削除する</a></p>
+                <p class="click_btn"><a href="#" onclick="confirmDestroy();">この従業員情報を削除する</a></p>
                 <form method="POST" action="<c:url value='/employees/destroy' />">
                     <input type="hidden" name="_token" value="${_token}" />
                 </form>
@@ -27,6 +27,6 @@
             </c:otherwise>
         </c:choose>
 
-        <p><a href="<c:url value='/employees/index' />">一覧に戻る</a></p>
+        <p class="click_btn"><a href="<c:url value='/employees/index' />">一覧に戻る</a></p>
     </c:param>
 </c:import>

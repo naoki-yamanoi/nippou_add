@@ -41,13 +41,13 @@
                     </tbody>
                 </table>
 
-                <p><a href="<c:url value='/employees/edit?id=${employee.id}' />">この従業員情報を編集する</a></p>
+                <p class="click_btn"><a href="<c:url value='/employees/edit?id=${employee.id}' />">この従業員情報を編集する</a></p>
             </c:when>
             <c:otherwise>
                 <h2>お探しのデータは見つかりませんでした。</h2>
             </c:otherwise>
         </c:choose>
 
-        <p><a href="<c:url value='/employees/index' />">一覧に戻る</a></p>
+        <p class="click_btn"><a href="<c:url value='/employees/index' />">一覧に戻る</a></p>
     </c:param>
 </c:import>

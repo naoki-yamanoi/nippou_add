@@ -98,6 +98,14 @@ public class Report {
     @JoinColumn(name = "approval_employee_id", nullable = true)
     private Employee approval_employee;
 
+//    リアクション、Good!
+    @Column(name = "reaction_good", nullable = false)
+    private Integer reaction_good = 0;
+
+//    リアクション、Bad
+    @Column(name = "reaction_bad", nullable = false)
+    private Integer reaction_bad = 0;
+
     public Integer getId() {
         return id;
     }
@@ -160,5 +168,30 @@ public class Report {
 
     public void setApproval_employee(Employee approval_employee) {
         this.approval_employee = approval_employee;
+    }
+
+    public Integer getReaction_good() {
+        return reaction_good;
+    }
+
+    public void setReaction_good(Integer reaction_good) {
+        this.reaction_good = reaction_good;
+    }
+
+    public Integer getReaction_bad() {
+        return reaction_bad;
+    }
+
+    public void setReaction_bad(Integer reaction_bad) {
+        this.reaction_bad = reaction_bad;
+    }
+
+//メソッド
+    public void countGood() {
+        this.reaction_good++;
+    }
+
+    public void countBad() {
+        this.reaction_bad++;
     }
 }

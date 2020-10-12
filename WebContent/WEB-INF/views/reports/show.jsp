@@ -40,16 +40,16 @@
                 </table>
                 <!-- 日報の作成者以外の人が該当の日報を編集できないようにする -->
                 <c:if test="${sessionScope.login_employee.id == report.employee.id}">
-                    <p><a href="<c:url value="/reports/edit?id=${report.id}" />">この日報を編集する</a></p>
+                    <p class="click_btn"><a href="<c:url value="/reports/edit?id=${report.id}" />">この日報を編集する</a></p>
                 </c:if>
                 <!-- 日報の作成者ではない ＋ 既にフォローしていない 場合に表示 -->
                 <c:choose>
                     <c:when test="${sessionScope.login_employee.id != report.employee.id && follow == null}">
-                        <p><a href="<c:url value='/follow/to?id=${report.id}' />">フォローする</a></p>
+                        <p class="click_btn"><a href="<c:url value='/follow/to?id=${report.id}' />">フォローする</a></p>
                     </c:when>
                     <c:otherwise>
                         <c:if test="${sessionScope.login_employee.id != report.employee.id}">
-                            <p><a href="<c:url value='/follow/un?id=${report.id}' />">フォローを解除する</a></p>
+                            <p class="click_btn"><a href="<c:url value='/follow/un?id=${report.id}' />">フォローを解除する</a></p>
                         </c:if>
                     </c:otherwise>
                 </c:choose>
@@ -59,6 +59,6 @@
             </c:otherwise>
         </c:choose>
 
-        <p><a href="<c:url value="/reports/index" />">一覧に戻る</a></p>
+        <p class="click_btn"><a href="<c:url value="/reports/index" />">一覧に戻る</a></p>
     </c:param>
 </c:import>
